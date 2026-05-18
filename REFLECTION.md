@@ -1,5 +1,8 @@
 # Day 91 — Reflection: PDF → Speech Audiobook
 
+🔗 **Live site:** https://pdf-to-speech-hkpk.onrender.com
+*(Free tier — the first visit after a quiet spell takes ~50s to wake up.)*
+
 ## How I approached it
 Broke the problem into three clean stages: (1) pull text out of the PDF, (2) hand text to a TTS engine, (3) wrap it in a CLI. Picked `pypdf` for extraction and offered two TTS paths — `gTTS` for natural-sounding online output and `pyttsx3` as an offline fallback. Added a Buy Me a Coffee prompt that fires once the MP3 is written. Then went further than a CLI: built a Flask web app (`app.py`) that reuses the same `extract_text`/`synthesise_*` functions, and deployed it live on Render's free tier at `pdf-to-speech-hkpk.onrender.com`.
 
