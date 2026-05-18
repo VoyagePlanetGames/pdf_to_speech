@@ -64,7 +64,7 @@ Other one-click options that work the same way: Railway, Fly.io, PythonAnywhere.
 
 ## Support
 
-If this saved you a few hours of reading, [buy me a coffee ☕](https://www.buymeacoffee.com/yourname).
+If this saved you a few hours of reading, [buy me a coffee ☕](https://buymeacoffee.com/chenbuilds).
 
 ## License
 

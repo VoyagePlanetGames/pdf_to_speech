@@ -106,7 +106,7 @@ def chunk_text(text: str, max_chars: int) -> list[str]:
 
 # ---------- 3. BUY ME A COFFEE -----------------------------------------------
 
-BMC_URL = "https://www.buymeacoffee.com/yourname"  # ← swap for your handle
+BMC_URL = "https://buymeacoffee.com/chenbuilds"
 
 def print_bmc_banner() -> None:
     banner = textwrap.dedent(f"""
