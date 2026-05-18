@@ -1,0 +1,196 @@
+:root {
+  --bg: #0f1115;
+  --panel: #161a22;
+  --panel-2: #1f2531;
+  --text: #e8ecf2;
+  --muted: #9aa3b2;
+  --accent: #ffb454;
+  --accent-2: #ff7e5f;
+  --ok: #4ade80;
+  --err: #f87171;
+  --radius: 14px;
+  --shadow: 0 12px 40px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: radial-gradient(1100px 600px at 20% -10%, #1c2336 0%, var(--bg) 60%);
+  color: var(--text);
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Nav */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.brand { font-weight: 800; font-size: 1.15rem; color: var(--text); }
+.bmc {
+  background: var(--accent);
+  color: #1a1300;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.bmc:hover { text-decoration: none; filter: brightness(1.05); }
+
+/* Hero */
+.hero {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 72px 24px 40px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.1;
+  margin: 0 0 16px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.hero h1 span {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.lede { color: var(--muted); font-size: 1.1rem; margin: 0 auto 32px; max-width: 560px; }
+
+/* Dropzone */
+.dropzone {
+  background: var(--panel);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+.drop-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed rgba(255,255,255,.18);
+  border-radius: var(--radius);
+  padding: 36px;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.drop-label:hover { border-color: var(--accent); background: rgba(255,180,84,.04); }
+.drop-label strong { font-size: 1.05rem; }
+.drop-label span { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+
+.options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 22px 0 18px;
+}
+.options label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.options select,
+.options input {
+  background: var(--panel-2);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 9px 10px;
+  font-size: 0.95rem;
+}
+.options select:focus,
+.options input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+
+button#go {
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #1a1300;
+  border: 0;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform .05s;
+}
+button#go:hover { transform: translateY(-1px); }
+button#go:disabled { opacity: .6; cursor: not-allowed; }
+
+.filename { margin: 10px 0 0; color: var(--muted); font-size: 0.85rem; text-align: center; }
+
+/* Status + result */
+.status, .result {
+  max-width: 760px;
+  margin: 18px auto 0;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  background: var(--panel);
+}
+.status { color: var(--muted); }
+.result { display: flex; flex-direction: column; gap: 12px; align-items: stretch; text-align: center; }
+.result .primary {
+  background: var(--ok);
+  color: #062313;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+.result .primary:hover { text-decoration: none; filter: brightness(1.05); }
+.result .secondary {
+  color: var(--accent);
+  font-size: 0.95rem;
+}
+.hidden { display: none; }
+
+/* Sections */
+.how, .faq {
+  max-width: 760px;
+  margin: 56px auto;
+  padding: 0 24px;
+}
+.how h2, .faq h2 {
+  font-size: 1.4rem;
+  margin: 0 0 16px;
+}
+.how ol { padding-left: 20px; color: var(--muted); }
+.how li { margin-bottom: 8px; }
+.how strong { color: var(--text); }
+.how code {
+  background: var(--panel-2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+details {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+}
+details summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+details p { color: var(--muted); margin: 8px 0 0; }
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 32px 16px 48px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Listenly — Free PDF to Audiobook</title>
+  <meta name="description" content="Drop a PDF, get an MP3 audiobook. Free, no signup, no email." />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+
+  <header class="nav">
+    <a class="brand" href="/">🎧 Listenly</a>
+    <a class="bmc" href="https://www.buymeacoffee.com/yourname" target="_blank" rel="noopener">
+      ☕ Buy me a coffee
+    </a>
+  </header>
+
+  <section class="hero">
+    <h1>Too tired to read? <span>Listen instead.</span></h1>
+    <p class="lede">
+      Drop in any PDF — research paper, ebook, contract — and walk away with a
+      free MP3 audiobook in under a minute. No signup. No watermark.
+    </p>
+
+    <form id="convert-form" class="dropzone" enctype="multipart/form-data">
+      <label for="pdf" class="drop-label">
+        <strong>Click to upload a PDF</strong>
+        <span>or drag and drop · max {{ max_mb }} MB</span>
+        <input id="pdf" name="pdf" type="file" accept="application/pdf" required hidden />
+      </label>
+
+      <div class="options">
+        <label>Engine
+          <select name="engine">
+            <option value="gtts">Google TTS (natural, online)</option>
+            <option value="offline">Offline OS voice</option>
+          </select>
+        </label>
+        <label>Language
+          <select name="lang">
+            <option value="en">English (US)</option>
+            <option value="en-uk">English (UK)</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+            <option value="de">German</option>
+            <option value="zh-CN">Chinese</option>
+          </select>
+        </label>
+        <label>From page <input type="number" name="start" min="1" placeholder="1" /></label>
+        <label>To page <input type="number" name="end" min="1" placeholder="end" /></label>
+      </div>
+
+      <button type="submit" id="go">Convert to audiobook →</button>
+      <p class="filename" id="filename"></p>
+    </form>
+
+    <div id="status" class="status hidden"></div>
+    <div id="result" class="result hidden">
+      <p>✅ Done. <span id="meta"></span></p>
+      <a id="download" class="primary" href="#" download>Download MP3</a>
+      <a class="secondary" href="https://www.buymeacoffee.com/yourname" target="_blank" rel="noopener">
+        Loved it? Buy me a coffee ☕
+      </a>
+    </div>
+  </section>
+
+  <section class="how">
+    <h2>How it works</h2>
+    <ol>
+      <li><strong>Extract.</strong> We pull the text out of your PDF with <code>pypdf</code>.</li>
+      <li><strong>Speak.</strong> Google Translate TTS turns the text into natural-sounding speech.</li>
+      <li><strong>Listen.</strong> You download a single MP3. Play it anywhere.</li>
+    </ol>
+  </section>
+
+  <section class="faq">
+    <h2>FAQ</h2>
+    <details>
+      <summary>Is it really free?</summary>
+      <p>Yes. The conversion runs on free TTS endpoints. If it saves you time, the coffee button keeps the lights on.</p>
+    </details>
+    <details>
+      <summary>Does it work on scanned PDFs?</summary>
+      <p>Not yet — scanned pages have no extractable text. OCR support is on the roadmap.</p>
+    </details>
+    <details>
+      <summary>Do you store my files?</summary>
+      <p>No. Files live in a temp folder during conversion and are wiped on server restart.</p>
+    </details>
+  </section>
+
+  <footer>
+    <p>Day 91 of 100 Days of Code · Built with Flask + gTTS · <a href="https://www.buymeacoffee.com/yourname" target="_blank" rel="noopener">☕ Support the project</a></p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('convert-form');
+    const fileInput = document.getElementById('pdf');
+    const fileLabel = document.getElementById('filename');
+    const statusEl = document.getElementById('status');
+    const resultEl = document.getElementById('result');
+    const downloadEl = document.getElementById('download');
+    const metaEl = document.getElementById('meta');
+    const btn = document.getElementById('go');
+
+    fileInput.addEventListener('change', () => {
+      fileLabel.textContent = fileInput.files[0]?.name || '';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultEl.classList.add('hidden');
+      statusEl.classList.remove('hidden');
+      statusEl.textContent = 'Converting… large PDFs can take a minute.';
+      btn.disabled = true;
+
+      try {
+        const fd = new FormData(form);
+        const res = await fetch('/convert', { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Conversion failed');
+
+        statusEl.classList.add('hidden');
+        resultEl.classList.remove('hidden');
+        downloadEl.href = data.download_url;
+        metaEl.textContent = `${data.char_count.toLocaleString()} chars · ${data.size_kb} KB MP3`;
+      } catch (err) {
+        statusEl.textContent = '❌ ' + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
